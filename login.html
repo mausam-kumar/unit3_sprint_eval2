@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        *{
+            padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        a{
+            list-style: none;
+            text-decoration: none;
+        }
+        .header{
+            display: flex;
+            justify-content: space-around;
+            color: crimson;
+            font-size: 25px;
+        }
+
+        button{
+            margin-top: 60px;
+            height: 40px;
+            width: 140px;
+            cursor: pointer;
+        }
+        input{
+            margin-top: 60px;
+            height: 40px;
+            width: 340px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <!-- <a href="./home.html">Home</a> -->
+        <a href="./login.html">Login</a>
+        <a href="./register.html">Register</a>
+    </div>
+
+    <div class="container">
+        <p>Login Page</p>
+        <input type="email" name="userEmail" id="userEmail" placeholder="Enter Email">
+        <br>
+        <input type="password" name="userPassword" id="userPassword" placeholder="Enter Password">
+    </div>
+    <button onclick="login()">Login</button>
+
+    <script>
+        async function login(){
+            const userEmail = document.querySelector("#userEmail").value;
+            const userPassword = document.querySelector("#userPassword").value;
+
+            var obj = {
+                email: userEmail,
+                password:userPassword
+            }
+            const details = {
+                method: 'POST',
+                headers: {"Content-type": "application/json; charset=UTF-8"},
+                body: JSON.stringify(obj)
+            }
+
+            let data = await fetch("https://reqres.in/api/login",details);
+            data = await data.json();
+            console.log("Data => ",data.token);
+            localStorage.setItem(`${userEmail}`, `${data.token}`)
+            if (localStorage.getItem(userEmail)!==null) {
+                location.href = `file:///C:/Users/Mausam/Desktop/unit3_sprint_eval2/home.html`
+            }
+        }
+    </script>
+</body>
+</html>
